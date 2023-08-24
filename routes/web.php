@@ -6,6 +6,7 @@ use App\Http\Controllers\Backend\PropertyTypeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\EmailVerificationPromptController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,9 +19,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Route::get('/', [UserController::class, 'userIndex']);
 
@@ -29,9 +30,11 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile', [UserController::class, 'userProfile'])->name('profile_user');
+    Route::post('/profile/store', [UserController::class, 'userStoreProfile'])->name('store.profile');
+    Route::get('/user/logout', [UserController::class, 'userLogout'])->name('user.logout');
+    Route::get('/user/password', [UserController::class, 'userChangePassword'])->name('edit.password');
+    Route::post('/store_password', [UserController::class, 'userStorePassword'])->name('store.password');
 });
 
 

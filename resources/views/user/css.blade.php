@@ -25,3 +25,6 @@
     <link href="frontend/assets/css/switcher-style.css" rel="stylesheet">
     <link href="frontend/assets/css/style.css" rel="stylesheet">
     <link href="frontend/assets/css/responsive.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
+
