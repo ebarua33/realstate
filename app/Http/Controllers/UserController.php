@@ -15,11 +15,17 @@ class UserController extends Controller
         return view('user.user_home.index');
     }
 
+
+    //___________User Profile Show___________//
+
     public function userProfile(){
         $id = Auth::user()->id;
         $data = User::find($id);
         return view('user.dashboard.edit_profile', compact('data'));
     }
+
+
+    //___________User Profile Edit___________//
 
     public function userStoreProfile(Request $request){
         $id = Auth::user()->id;
@@ -45,9 +51,16 @@ class UserController extends Controller
         return redirect()->back()->with($notification);
     }
 
-    public function userChangePassword(){
-        return view('user.dashboard.user_change_password');
+
+//___________User Password Show___________//
+
+    public function userUpdatePassword(){
+        $id = Auth::user()->id;
+        $data = User::find($id);
+        return view('user.change_password', compact('data'));
     }
+
+    //___________User Password Change___________//
 
     public function userStorePassword(Request $request){
         $request->validate([
@@ -83,7 +96,11 @@ class UserController extends Controller
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
+        $notification = array(
+            'message' => 'User Logout Successfully',
+            'alert-type' => 'success',
+        );
 
-        return redirect('/');
+        return redirect('/login')->with($notification);
     }
 }

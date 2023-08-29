@@ -3,10 +3,12 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\Backend\PropertyTypeController;
-use App\Http\Controllers\ProfileController;
+
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\EmailVerificationPromptController;
+
+use App\Http\Controllers\backend\AmenitiesController;
+use App\Http\Controllers\Backend\PropertyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,18 +31,20 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [UserController::class, 'userProfile'])->name('profile_user');
     Route::post('/profile/store', [UserController::class, 'userStoreProfile'])->name('store.profile');
     Route::get('/user/logout', [UserController::class, 'userLogout'])->name('user.logout');
-    Route::get('/user/password', [UserController::class, 'userChangePassword'])->name('edit.password');
-    Route::post('/store_password', [UserController::class, 'userStorePassword'])->name('store.password');
+    Route::get('password', [UserController::class, 'userUpdatePassword'])->name('password');
+    Route::post('store/password', [UserController::class, 'userStorePassword'])->name('store.password');
 });
 
 
-    //___________Admin Route Group_________//
+//___________Admin Route Group_________//
 
-Route::middleware(['auth', 'role:admin'])->group(function(){
+Route::middleware(['auth', 'role:admin'])->group(function () {
 
     Route::get('/admin/dashboard', [AdminController::class, 'adminDashboard'])->name('admin.dashboard');
     Route::get('/logout', [AdminController::class, 'adminLogout'])->name('admin.logout');
@@ -48,10 +52,9 @@ Route::middleware(['auth', 'role:admin'])->group(function(){
     Route::post('/admin/profile/store/{id}', [AdminController::class, 'adminProfileStore'])->name('admin.profile.store');
     Route::get('/admin/change/password', [AdminController::class, 'adminChangePassword'])->name('admin.change.password');
     Route::post('/admin/update/password', [AdminController::class, 'adminUpdatePassword'])->name('admin.update.password');
-
 });
 
- //___________End Of Admin Route_________//
+//___________End Of Admin Route_________//
 
 
 //___________Agent Route Group_________//
@@ -66,9 +69,32 @@ Route::middleware(['auth', 'role:agent'])->group(function () {
 
 Route::get('/admin/login', [AdminController::class, 'adminLogin'])->name('admin.login');
 
-Route::middleware(['auth', 'role:admin'])->group(function(){
+Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::controller(PropertyTypeController::class)->group(function () {
         Route::get('admin/property/all-type', 'propertyAllType')->name('property.all.type');
+        Route::get('admin/property/add-type', 'propertyAddType')->name('add.type');
+        Route::post('admin/property/store-type', 'propertyStoreType')->name('store.type');
+        Route::get('admin/property/edit-type/{id}', 'propertyEditType')->name('edit.type');
+        Route::post('admin/property/update-type/{id}', 'propertyUpdateType')->name('update.type');
+        Route::get('admin/property/destroy-type/{id}', 'propertyDestroyType')->name('destroy.type');
+    });
+
+    Route::controller(AmenitiesController::class)->group(function(){
+        Route::get('admin/amenities/all', 'amenitiesAll')->name('all.amenities');
+        Route::get('admin/amenities/add', 'amenitiesAdd')->name('add.amenities');
+        Route::post('admin/amenities/store', 'amenitiesStore')->name('store.amenities');
+        Route::get('admin/amenities/edit/{id}', 'amenitiesEdit')->name('edit.amenities');
+        Route::post('admin/amenities/update/{id}', 'amenitiesUpdate')->name('update.amenities');
+        Route::get('admin/amenities/destroy/{id}', 'amenitiesDestroy')->name('destroy.amenities');
+    });
+
+    Route::controller(PropertyController::class)->group(function () {
+        Route::get('admin/property/all', 'propertyAll')->name('all.property');
+        Route::get('admin/property/add', 'propertyAdd')->name('add.property');
+        Route::post('admin/property/store', 'propertyStore')->name('store.property');
+        Route::get('admin/property/edit/{id}', 'propertyEdit')->name('edit.property');
+        Route::post('admin/property/update/{id}', 'propertyUpdate')->name('update.property');
+        Route::get('admin/property/destroy/{id}', 'propertyDestroy')->name('destroy.property');
     });
 });
 
@@ -80,4 +106,4 @@ Route::middleware(['auth', 'role:admin'])->group(function(){
 
 
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

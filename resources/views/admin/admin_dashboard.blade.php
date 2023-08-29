@@ -36,6 +36,7 @@ License: For each use you must have a valid license purchased only from above li
         </div>
     </div>
 
+
     <!-- core:js -->
     <script src="{{ asset('backend/assets/vendors/core/core.js') }}"></script>
     <!-- endinject -->
@@ -56,6 +57,33 @@ License: For each use you must have a valid license purchased only from above li
     <script src="{{ asset('backend/assets/js/dashboard-dark.js') }}"></script>
     <script src="{{ asset('backend/assets/js/data-table.js') }}"></script>
     <!-- End custom js for this page -->
+
+    <!-- Sweet Alert Toaster -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="{{ asset('backend/assets/js/code/code.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/code/validate.min.js') }}"></script>
+
+
+    <!-- Input tags -->
+    <script src="{{ asset('backend/assets/vendors/select2/select2.min.js') }}"></script>
+	<script src="{{ asset('backend/assets/vendors/typeahead.js/typeahead.bundle.min.js') }}"></script>
+	<script src="{{ asset('backend/assets/vendors/jquery-tags-input/jquery.tagsinput.min.js') }}"></script>
+
+    <script src="{{ asset('backend/assets/js/inputmask.js') }}"></script>
+	<script src="{{ asset('backend/assets/js/select2.js') }}"></script>
+	<script src="{{ asset('backend/assets/js/typeahead.js') }}"></script>
+	<script src="{{ asset('backend/assets/js/tags-input.js') }}"></script>
+
+    <!-- End Input tags -->
+
+
+    <!-- Editor Field Tinymce-->
+    <script src="{{ asset('backend/assets/vendors/tinymce/tinymce.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/tinymce.js') }}"></script>
+    <!-- End Editor Field Tinymce-->
+
+
+
 
     <!-- Toaster -->
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -27,7 +28,16 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
 
+        $id = Auth::user()->id;
+        $data = User::find($id);
+        $username = $data->name;
+
         $request->session()->regenerate();
+
+        $notification = array(
+            'message' => 'User '.$username.' Logout Successfully',
+            'alert-type' => 'success',
+        );
 
         //___________Changed Here For Multi Auth__________//
 
@@ -43,7 +53,7 @@ class AuthenticatedSessionController extends Controller
             $url = '/dashboard';
         }
 
-        return redirect()->intended($url);
+        return redirect()->intended($url)->with($notification);
     }
 
     /**
