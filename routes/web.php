@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\backend\AmenitiesController;
 use App\Http\Controllers\Backend\PropertyController;
+use App\Http\Middleware\RedirectIfAuthenticated;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,7 +68,7 @@ Route::middleware(['auth', 'role:agent'])->group(function () {
 //___________End Of Agent Route_________//
 
 
-Route::get('/admin/login', [AdminController::class, 'adminLogin'])->name('admin.login');
+Route::get('/admin/login', [AdminController::class, 'adminLogin'])->name('admin.login')->middleware(RedirectIfAuthenticated::class);
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::controller(PropertyTypeController::class)->group(function () {
@@ -95,6 +96,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('admin/property/edit/{id}', 'propertyEdit')->name('edit.property');
         Route::post('admin/property/update/{id}', 'propertyUpdate')->name('update.property');
         Route::get('admin/property/destroy/{id}', 'propertyDestroy')->name('destroy.property');
+        Route::post('property/update/image', 'propertyUpdateMultiimg')->name('update.property.multiImg');
+        Route::get('property/delete/image/{id}', 'propertyDeleteMultiimg')->name('property.multiimg.delete');
+        Route::post('property/add/image/{id}', 'propertyStoreMultiimg')->name('store.property.multiImg');
     });
 });
 

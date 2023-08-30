@@ -273,8 +273,77 @@
                                         </div>
                                     </div>
 
-
                                     {{-- //////////////// Facility Item //////////// --}}
+
+                                    @foreach ($facilities as $item)
+                                        <div class="whole_extra_item_add" id="whole_extra_item_add">
+                                            <div class="whole_extra_item_add" id="whole_extra_item_add">
+                                                <div class="whole_extra_item_delete" id="whole_extra_item_delete">
+                                                    <div class="container mt-2 mb-3">
+                                                        <div class="row">
+
+                                                            <div class=" col-md-4">
+                                                                <label for="facility_name">Facilities</label>
+                                                                <select name="facility_name[]" id="facility_name"
+                                                                    class="form-control">
+                                                                    <option value="">Select Facility</option>
+                                                                    <option value="Hospital"
+                                                                        {{ $item->facility_name == 'Hospital' ? 'selected' : '' }}>
+                                                                        Hospital</option>
+                                                                    <option value="SuperMarket"
+                                                                        {{ $item->facility_name == 'SuperMarket' ? 'selected' : '' }}>
+                                                                        Super Market</option>
+                                                                    <option value="School"
+                                                                        {{ $item->facility_name == 'School' ? 'selected' : '' }}>
+                                                                        School</option>
+                                                                    <option value="Entertainment"
+                                                                        {{ $item->facility_name == 'Entertainment' ? 'selected' : '' }}>
+                                                                        Entertainment</option>
+                                                                    <option value="Pharmacy"
+                                                                        {{ $item->facility_name == 'Pharmacy' ? 'selected' : '' }}>
+                                                                        Pharmacy</option>
+                                                                    <option value="Airport"
+                                                                        {{ $item->facility_name == 'Airport' ? 'selected' : '' }}>
+                                                                        Airport</option>
+                                                                    <option value="Railways"
+                                                                        {{ $item->facility_name == 'Railways' ? 'selected' : '' }}>
+                                                                        Railways</option>
+                                                                    <option value="Bus Stop"
+                                                                        {{ $item->facility_name == 'Bus Stop' ? 'selected' : '' }}>
+                                                                        Bus Stop</option>
+                                                                    <option value="Beach"
+                                                                        {{ $item->facility_name == 'Beach' ? 'selected' : '' }}>
+                                                                        Beach</option>
+                                                                    <option value="Mall"
+                                                                        {{ $item->facility_name == 'Mall' ? 'selected' : '' }}>
+                                                                        Mall</option>
+                                                                    <option value="Bank"
+                                                                        {{ $item->facility_name == 'Bank' ? 'selected' : '' }}>
+                                                                        Bank</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class=" col-md-4">
+                                                                <label for="distance">Distance</label>
+                                                                <input type="text" name="distance[]" id="distance"
+                                                                    class="form-control" placeholder="Distance (Km)"
+                                                                    value="{{ $item->distance }}">
+                                                            </div>
+                                                            <div class=" col-md-4" style="padding-top: 20px">
+                                                                <span class="btn btn-success btn-sm addeventmore"><i
+                                                                        class="fa fa-plus-circle">Add</i></span>
+                                                                <span class="btn btn-danger btn-sm removeeventmore"><i
+                                                                        class="fa fa-minus-circle">Remove</i></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        {{-- //////////////// Facility Item End//////////// --}}
+                                    @endforeach
+                                      {{-- //////////////// Facility Item //////////// --}}
                                     <div class="row add_item">
                                         <div class="col-md-4">
                                             <div class="mb-3">
@@ -338,8 +407,8 @@
                         <div class="card">
                             <div class="card-body">
                                 <h6 class="card-title">Form Grid</h6>
-                                <form method="POST" id="myForm"
-                                    action="{{ route('update.property', $property->id) }}" enctype="multipart/form-data">
+                                <form method="POST" id="myForm" action="{{ route('update.property.multiImg') }}"
+                                    enctype="multipart/form-data">
                                     @csrf
 
                                     <div class="table-responsive">
@@ -349,21 +418,25 @@
                                                     <th>SL</th>
                                                     <th>Image</th>
                                                     <th>Change Image</th>
+                                                    <th>Upload Image</th>
                                                     <th>Delete</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 @foreach ($multiImage as $key => $img)
                                                     <tr>
-                                                        <td>{{ $key+1 }}</td>
+                                                        <td>{{ $key + 1 }}</td>
                                                         <td class="py-1">
-                                                            <img src="{{ asset($img->photo_name) }}" alt="image" style="width: 50px; height: 50px">
+                                                            <img src="{{ asset($img->photo_name) }}" alt="image"
+                                                                style="width: 50px; height: 50px">
                                                         </td>
-                                                        <td><input type="file" class="form-group" name="photo_name">
+                                                        <td><input type="file" class="form-control"
+                                                                name="photo_name[{{ $img->id }}]">
                                                         </td>
                                                         <td><input type="submit" class="btn btn-primary px-4"
                                                                 value="Update Image"></td>
-                                                        <td><a href="" class="btn btn-danger" id="delete">Delete</a>
+                                                        <td><a href="{{ route('property.multiimg.delete', $img->id) }}"
+                                                                class="btn btn-danger" id="delete">Delete</a>
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -371,8 +444,28 @@
                                         </table>
                                     </div>
 
-                                    <button type="sybmit" class="btn btn-primary">Save</button>
+                                </form>
 
+                                <form method="POST" id="myForm"
+                                    action="{{ route('store.property.multiImg', $property->id) }}"
+                                    enctype="multipart/form-data">
+                                    @csrf
+
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <input type="file" class="form-control" name="photo_name">
+                                                    </td>
+                                                    <td>
+                                                        <input type="submit" class="btn btn-primary px-4"
+                                                            value="Add Image">
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </form>
 
 
